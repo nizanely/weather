@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בדיקת מזג אוויר</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        #weatherContainer {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #weatherResult {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="weatherContainer">
+        <h1>בדיקת מזג אוויר</h1>
+        <input type="text" id="cityInput" placeholder="הכנס שם עיר">
+        <button onclick="getWeather()">בדוק מזג אוויר</button>
+        <div id="weatherResult"></div>
+    </div>
+
+    <!-- הטמעת קובץ ה-JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
