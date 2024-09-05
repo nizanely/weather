@@ -44,6 +44,6 @@ button:hover {
 
 #weatherResult {
     margin-top: 20px;
-    text-align: left;
+    text-align: right; /* מיישר את הטקסט לימין */
     font-size: 14px;
 }
