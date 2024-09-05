@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מזג אוויר בעיר</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>בדיקת מזג אוויר</h1>
+    </header>
+    <div class="container">
+        <h2>הכנס שם עיר לבדיקה:</h2>
+        <input type="text" id="cityInput" placeholder="לדוגמה: Tel Aviv">
+        <button onclick="getWeather()">בדוק מזג אוויר</button>
+        
+        <div id="weatherResult">
+            <!-- כאן יוצג המידע על מזג האוויר -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
