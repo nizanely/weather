@@ -16,7 +16,7 @@ async function getWeather() {
         console.log("Response status:", response.status);
 
         if (!response.ok) {
-            throw new Error('שגיאה: לא נמצא מידע על העיר');
+            throw new Error('לא נמצא מידע על העיר');
         }
 
         // קריאה לנתונים מהשרת בפורמט JSON
