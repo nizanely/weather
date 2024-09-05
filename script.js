@@ -22,7 +22,21 @@ async function getWeather() {
         const data = await response.json();
         console.log("נתונים שהתקבלו:", data);
         displayWeather(data);
-        displayMap(data.coord.lat, data.coord.lon); // הצגת המפה עם נתוני קואורדינטות
+
+        // קבלת קואורדינטות של העיר באמצעות Geoapify API
+        const geoapifyApiKey = '7f79c9c3cb95451fb61e88d3050f825d';
+        const geoapifyUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodedCity}&apiKey=${geoapifyApiKey}`;
+
+        const geoResponse = await fetch(geoapifyUrl);
+        const geoData = await geoResponse.json();
+
+        if (geoData.features && geoData.features.length > 0) {
+            const [lon, lat] = geoData.features[0].geometry.coordinates;
+            displayMap(lat, lon); // הצגת המפה עם הקואורדינטות שהתקבלו
+        } else {
+            console.error("שגיאה: לא נמצאו קואורדינטות לעיר");
+            document.getElementById('weatherResult').innerText += '\nשגיאה: לא נמצאו קואורדינטות לעיר';
+        }
 
     } catch (error) {
         console.error("שגיאה:", error);
@@ -64,7 +78,8 @@ function displayWeather(data) {
 }
 
 function displayMap(lat, lon) {
-    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // השתמש במפתח ה-API שלך
+    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // מפתח ה-API שלך
+
     // יצירת מפה חדשה עם MapLibre GL JS
     const map = new maplibregl.Map({
         container: 'map', // ID של המיכל שבו המפה תוצג
