@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>בדיקת מזג אוויר</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-5PMYd+V4zgT+8VxvYXcm3HC9MDW5aCQwC6y4UGHi6zI=" crossorigin=""/>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,8 +15,12 @@
         <input type="text" id="cityInput" placeholder="הכנס שם עיר">
         <button onclick="getWeather()">בדוק מזג אוויר</button>
         <div id="weatherResult"></div>
+        <!-- מיכל למפה -->
+        <div id="map" style="height: 400px; margin-top: 20px;"></div>
     </div>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-IMf+weNuf5ZYgLeDkXbuYmQlBwm0XCPV9d0KEvB9VbE=" crossorigin=""></script>
     <script src="script.js"></script>
 </body>
 </html>
