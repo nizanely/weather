@@ -52,3 +52,4 @@ function displayWeather(data) {
         <p>ראות: ${visibility.toFixed(1)} ק"מ</p>
     `;
 }
+
