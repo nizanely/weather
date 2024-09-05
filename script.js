@@ -1,21 +1,26 @@
 async function getWeather() {
     const city = document.getElementById('cityInput').value;
-    const apiUrl = `https://weather-api99.p.rapidapi.com/weather?q=${city}&lang=he`; // השתמש ב-URL של RapidAPI
+    const apiUrl = `https://weather-api99.p.rapidapi.com/weather?q=${city}&lang=he`;
 
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Host': 'weather-api99.p.rapidapi.com', // ודא שה-host נכון
-                'X-RapidAPI-Key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e' // השתמש במפתח ה-API שלך
+                'X-RapidAPI-Host': 'weather-api99.p.rapidapi.com',
+                'X-RapidAPI-Key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
         
         if (!response.ok) {
+            const errorText = await response.text(); 
+            console.log("שגיאת API:", errorText); 
             throw new Error('שגיאה: לא נמצא מידע על העיר');
         }
 
         const data = await response.json();
+        console.log("נתונים שהתקבלו:", data); // הדפסת הנתונים לבדיקה
         displayWeather(data);
     } catch (error) {
         document.getElementById('weatherResult').innerText = `שגיאה: ${error.message}`;
