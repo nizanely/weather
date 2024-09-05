@@ -15,12 +15,11 @@ async function getWeather() {
 
         console.log("Response status:", response.status);
 
-        // בדוק אם התגובה אינה מוצלחת (לא תקינה)
         if (!response.ok) {
             throw new Error('שגיאה: לא נמצא מידע על העיר');
         }
 
-        // קרא את התגובה כ-JSON פעם אחת בלבד
+        // קריאה לנתונים מהשרת בפורמט JSON
         const data = await response.json();
         console.log("נתונים שהתקבלו:", data); // הדפסת הנתונים לבדיקה
         displayWeather(data);
@@ -33,13 +32,23 @@ async function getWeather() {
 
 function displayWeather(data) {
     const weatherContainer = document.getElementById('weatherResult');
-    const temperature = data.main.temp - 273.15; // להמיר מקלווין לצלזיוס
+    const temperature = data.main.temp - 273.15; // המרה מקלווין לצלזיוס
     const description = data.weather[0].description;
     const cityName = data.name;
+    const humidity = data.main.humidity; // לחות
+    const windSpeed = data.wind.speed; // מהירות רוח
+    const windDeg = data.wind.deg; // כיוון רוח
+    const pressure = data.main.pressure; // לחץ אוויר
+    const visibility = data.visibility / 1000; // ראות בק"מ
 
     weatherContainer.innerHTML = `
         <h3>מזג אוויר ב-${cityName}</h3>
         <p>טמפרטורה: ${temperature.toFixed(2)}°C</p>
         <p>תיאור: ${description}</p>
+        <p>לחות: ${humidity}%</p>
+        <p>מהירות רוח: ${windSpeed} מ/ש</p>
+        <p>כיוון רוח: ${windDeg}°</p>
+        <p>לחץ אוויר: ${pressure} hPa</p>
+        <p>ראות: ${visibility.toFixed(1)} ק"מ</p>
     `;
 }
