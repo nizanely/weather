@@ -63,45 +63,24 @@ function displayWeather(data) {
     `;
 }
 
-async function displayMap(lat, lon) {
+function displayMap(lat, lon) {
     const mapContainer = document.getElementById('map');
 
-    // ננקה את תוכן המפה הקודמת אם קיימת
-    mapContainer.innerHTML = '';
-
-    const mapOptions = {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-host': 'maps-for-app-and-website.p.rapidapi.com',
-            'x-rapidapi-key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e'
-        }
-    };
-
-    try {
-        const response = await fetch('https://maps-for-app-and-website.p.rapidapi.com/v1/styles/osm-carto/style.json', mapOptions);
-
-        if (!response.ok) {
-            throw new Error('שגיאה בטעינת המפה');
-        }
-
-        const mapData = await response.json();
-        console.log("Map data received:", mapData);
-
-        // יצירת המפה והגדרות ראשוניות
-        window.map = L.map('map').setView([lat, lon], 10);
-
-        // שימוש באריחים מהשירות החדש
-        L.tileLayer(mapData.tiles[0], {
-            maxZoom: 19,
-            attribution: mapData.attribution
-        }).addTo(window.map);
-
-        // הוספת סמן למיקום העיר
-        L.marker([lat, lon]).addTo(window.map)
-            .bindPopup('מיקום: ' + lat.toFixed(2) + ', ' + lon.toFixed(2))
-            .openPopup();
-    } catch (error) {
-        console.error("שגיאה בטעינת המפה:", error);
-        mapContainer.innerText = `שגיאה בטעינת המפה: ${error.message}`;
+    if (window.map) {
+        window.map.remove();
     }
+
+    // יצירת מפה חדשה עם Geoapify Tiles
+    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // מפתח ה-API שלך
+    window.map = L.map('map').setView([lat, lon], 10);
+
+    L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-carto/{z}/{x}/{y}.png?apiKey=${apiKey}`, {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors, © Geoapify'
+    }).addTo(window.map);
+
+    // הוספת סמן למיקום העיר
+    L.marker([lat, lon]).addTo(window.map)
+        .bindPopup('מיקום: ' + lat.toFixed(2) + ', ' + lon.toFixed(2))
+        .openPopup();
 }
