@@ -13,30 +13,16 @@ async function getWeather() {
             }
         });
 
-        console.log("Response status:", response.status);
-
         if (!response.ok) {
             throw new Error('לא נמצא מידע על העיר');
         }
 
         const data = await response.json();
-        console.log("נתונים שהתקבלו:", data);
         displayWeather(data);
 
-        // קבלת קואורדינטות של העיר באמצעות Geoapify API
-        const geoapifyApiKey = '7f79c9c3cb95451fb61e88d3050f825d';
-        const geoapifyUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodedCity}&apiKey=${geoapifyApiKey}`;
-
-        const geoResponse = await fetch(geoapifyUrl);
-        const geoData = await geoResponse.json();
-
-        if (geoData.features && geoData.features.length > 0) {
-            const [lon, lat] = geoData.features[0].geometry.coordinates;
-            displayMap(lat, lon); // הצגת המפה עם הקואורדינטות שהתקבלו
-        } else {
-            console.error("שגיאה: לא נמצאו קואורדינטות לעיר");
-            document.getElementById('weatherResult').innerText += '\nשגיאה: לא נמצאו קואורדינטות לעיר';
-        }
+        const lat = data.coord.lat;
+        const lon = data.coord.lon;
+        displayMap(lat, lon); // הצגת המפה עם הקואורדינטות שהתקבלו
 
     } catch (error) {
         console.error("שגיאה:", error);
@@ -46,14 +32,14 @@ async function getWeather() {
 
 function displayWeather(data) {
     const weatherContainer = document.getElementById('weatherResult');
-    const temperature = data.main.temp - 273.15; // המרה מקלווין לצלזיוס
+    const temperature = data.main.temp - 273.15;
     const description = data.weather[0].description;
     const cityName = data.name;
-    const humidity = data.main.humidity; // לחות
-    const windSpeed = data.wind.speed; // מהירות רוח
-    const windDeg = data.wind.deg; // כיוון רוח
-    const pressure = data.main.pressure; // לחץ אוויר
-    const visibility = data.visibility / 1000; // ראות בק"מ
+    const humidity = data.main.humidity;
+    const windSpeed = data.wind.speed;
+    const windDeg = data.wind.deg;
+    const pressure = data.main.pressure;
+    const visibility = data.visibility / 1000;
 
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString('he-IL', {
@@ -78,28 +64,16 @@ function displayWeather(data) {
 }
 
 function displayMap(lat, lon) {
-    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // מפתח ה-API שלך
+    // יצירת מפה חדשה עם Leaflet
+    const map = L.map('map').setView([lat, lon], 10);
 
-    // יצירת מפה חדשה עם MapLibre GL JS
-    const map = new maplibregl.Map({
-        container: 'map', // ID של המיכל שבו המפה תוצג
-        style: `https://maps.geoapify.com/v1/styles/osm-bright/style.json?apiKey=${apiKey}`, // סגנון המפה
-        center: [lon, lat], // מרכז המפה בקואורדינטות
-        zoom: 10 // זום התחלתי
-    });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
     // הוספת סמן למיקום העיר
-    new maplibregl.Marker()
-        .setLngLat([lon, lat])
-        .addTo(map);
-
-    map.on('load', function () {
-        map.getStyle().layers.forEach(function (layer) {
-            if (layer.layout && layer.layout['text-field']) {
-                map.setLayoutProperty(layer.id, 'text-field', ['get', 'name:he']); // שימוש בשמות בעברית
-                map.setLayoutProperty(layer.id, 'text-direction', 'rtl'); // כיוון טקסט מימין לשמאל
-            }
-        });
-    });
+    L.marker([lat, lon]).addTo(map)
+        .bindPopup('מיקום: ' + lat.toFixed(2) + ', ' + lon.toFixed(2))
+        .openPopup();
 }
-
