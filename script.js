@@ -16,17 +16,12 @@ async function getWeather() {
 
         console.log("Response status:", response.status);
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.log("שגיאת API:", errorText);
-            throw new Error('שגיאה: לא נמצא מידע על העיר');
-        }
-
-        // קרא את התגובה כ-JSON
+        // קרא את התגובה כ-JSON פעם אחת בלבד
         const data = await response.json();
         console.log("נתונים שהתקבלו:", data);
         displayWeather(data);
     } catch (error) {
+        console.error("שגיאה:", error);
         document.getElementById('weatherResult').innerText = `שגיאה: ${error.message}`;
     }
 }
