@@ -1,6 +1,7 @@
 async function getWeather() {
     const city = document.getElementById('cityInput').value;
-    const apiUrl = `https://weather-api99.p.rapidapi.com/weather?q=${city}&lang=he`;
+    const encodedCity = encodeURIComponent(city);
+    const apiUrl = `https://weather-api99.p.rapidapi.com/weather?city=${encodedCity}&lang=he`; // שם הפרמטר עודכן ל-city
 
     try {
         const response = await fetch(apiUrl, {
@@ -12,30 +13,18 @@ async function getWeather() {
                 'Content-Type': 'application/json'
             }
         });
-        
+
+        console.log("Response status:", response.status);
+        console.log("Response text:", await response.text()); // הצג את התגובה המלאה מהשרת
+
         if (!response.ok) {
-            const errorText = await response.text(); 
-            console.log("שגיאת API:", errorText); 
             throw new Error('שגיאה: לא נמצא מידע על העיר');
         }
 
         const data = await response.json();
-        console.log("נתונים שהתקבלו:", data); // הדפסת הנתונים לבדיקה
+        console.log("נתונים שהתקבלו:", data);
         displayWeather(data);
     } catch (error) {
         document.getElementById('weatherResult').innerText = `שגיאה: ${error.message}`;
     }
-}
-
-function displayWeather(data) {
-    const weatherContainer = document.getElementById('weatherResult');
-    const temperature = data.main.temp;
-    const description = data.weather[0].description;
-    const cityName = data.name;
-
-    weatherContainer.innerHTML = `
-        <h3>מזג אוויר ב-${cityName}</h3>
-        <p>טמפרטורה: ${temperature}°C</p>
-        <p>תיאור: ${description}</p>
-    `;
 }
