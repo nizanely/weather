@@ -1,13 +1,13 @@
 async function getWeather() {
     const city = document.getElementById('cityInput').value;
-    const apiUrl = `https://YOUR_RAPIDAPI_HOST/weather?q=${city}&lang=he`;
+    const apiUrl = `https://weather-api99.p.rapidapi.com/weather?q=${city}&lang=he`;
 
     try {
         const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'X-RapidAPI-Host': 'weather-api99.p.rapidapi.com',
-                'X-RapidAPI-Key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e'
+                'X-RapidAPI-Key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e' // השתמש במפתח ה-API שלך
             }
         });
         
