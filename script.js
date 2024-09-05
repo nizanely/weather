@@ -64,23 +64,17 @@ function displayWeather(data) {
 }
 
 function displayMap(lat, lon) {
-    const mapContainer = document.getElementById('map');
-
-    if (window.map) {
-        window.map.remove();
-    }
-
-    // יצירת מפה חדשה עם Geoapify Tiles
-    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // מפתח ה-API שלך
-    window.map = L.map('map').setView([lat, lon], 10);
-
-    L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-carto/{z}/{x}/{y}.png?apiKey=${apiKey}`, {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors, © Geoapify'
-    }).addTo(window.map);
+    const apiKey = '7f79c9c3cb95451fb61e88d3050f825d'; // השתמש במפתח ה-API שלך
+    // יצירת מפה חדשה עם MapLibre GL JS
+    const map = new maplibregl.Map({
+        container: 'map', // ID של המיכל שבו המפה תוצג
+        style: `https://maps.geoapify.com/v1/styles/osm-bright/style.json?apiKey=${apiKey}`, // סגנון המפה
+        center: [lon, lat], // מרכז המפה בקואורדינטות
+        zoom: 10 // זום התחלתי
+    });
 
     // הוספת סמן למיקום העיר
-    L.marker([lat, lon]).addTo(window.map)
-        .bindPopup('מיקום: ' + lat.toFixed(2) + ', ' + lon.toFixed(2))
-        .openPopup();
+    new maplibregl.Marker()
+        .setLngLat([lon, lat])
+        .addTo(map);
 }
