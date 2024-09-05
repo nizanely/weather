@@ -9,13 +9,13 @@ async function getWeather() {
             headers: {
                 'X-RapidAPI-Host': 'weather-api99.p.rapidapi.com',
                 'X-RapidAPI-Key': 'ac3b6b8c63mshaec2dc8ad7fe68dp116517jsnc0d592f0888e',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Accept': 'application/json'
             }
         });
 
         console.log("Response status:", response.status);
 
+        // בדוק אם התגובה אינה מוצלחת (לא תקינה)
         if (!response.ok) {
             throw new Error('שגיאה: לא נמצא מידע על העיר');
         }
@@ -24,6 +24,7 @@ async function getWeather() {
         const data = await response.json();
         console.log("נתונים שהתקבלו:", data); // הדפסת הנתונים לבדיקה
         displayWeather(data);
+
     } catch (error) {
         console.error("שגיאה:", error);
         document.getElementById('weatherResult').innerText = `שגיאה: ${error.message}`;
