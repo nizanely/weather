@@ -92,4 +92,14 @@ function displayMap(lat, lon) {
     new maplibregl.Marker()
         .setLngLat([lon, lat])
         .addTo(map);
+
+    map.on('load', function () {
+        map.getStyle().layers.forEach(function (layer) {
+            if (layer.layout && layer.layout['text-field']) {
+                map.setLayoutProperty(layer.id, 'text-field', ['get', 'name:he']); // שימוש בשמות בעברית
+                map.setLayoutProperty(layer.id, 'text-direction', 'rtl'); // כיוון טקסט מימין לשמאל
+            }
+        });
+    });
 }
+
