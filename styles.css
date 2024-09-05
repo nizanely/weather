@@ -5,6 +5,7 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    direction: rtl; /* הגדרת כיוון הטקסט ל-RTL */
 }
 
 #weatherContainer {
@@ -14,6 +15,7 @@ body {
     width: 300px;
     margin: 50px auto;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center; /* שמירה על יישור כותרות ואמצעים */
 }
 
 h1 {
@@ -26,6 +28,7 @@ input[type="text"] {
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    text-align: right; /* יישור טקסט בשדה הקלט לימין */
 }
 
 button {
@@ -44,6 +47,6 @@ button:hover {
 
 #weatherResult {
     margin-top: 20px;
-    text-align: right; /* מיישר את הטקסט לימין */
+    text-align: right; /* יישור התוכן לימין */
     font-size: 14px;
 }
